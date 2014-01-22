@@ -147,9 +147,9 @@
         (swap! game assoc :moveDeadline
                (tc/to-date (t/plus (t/now) (t/seconds (:moveInterval @game)))))))
 
-  ; cap the number of moves at 200.  after that, arbitrarily pick red (team 0) as winner
-  (if (and (> (:turn @game) 200) (not (:winningTeam @game)))
-    (swap! game assoc :winningTeam 0))
+  ; cap the number of moves.  after that, set winner to "2" which means "draw"
+  (if (and (> (:turn @game) 100) (not (:winningTeam @game)))
+    (swap! game assoc :winningTeam 2))
 
   (if-not (:winningTeam @game)
     (reset! next-move (schedule-move apply-votes))
